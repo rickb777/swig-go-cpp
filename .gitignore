@@ -1,0 +1,6 @@
+.build-debug/
+
+# vendor holds Go dependencies and would normally be added to Git, if it is present.
+vendor/
+/cpp/cpp.go
+*/interfaceGO_wrap.cxx

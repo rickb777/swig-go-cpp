@@ -1,0 +1,9 @@
+#!/bin/bash -e
+
+echo "cmake -S . -B .build-debug -G Ninja"
+cmake -S . -B .build-debug -G Ninja
+
+echo
+
+echo "ninja -j4 -C .build-debug"
+ninja -j4 -C .build-debug
