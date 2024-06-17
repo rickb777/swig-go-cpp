@@ -15,8 +15,9 @@ echo
 echo "$CMD .build-debug"
 $CMD .build-debug
 
-echo
-
+echo "--"
 go test ./...
-#echo .build-debug/all_tests
-#.build-debug/all_tests
+echo "--"
+.build-debug/cpp_main
+echo "--"
+.build-debug/cmd/swig-go-cpp

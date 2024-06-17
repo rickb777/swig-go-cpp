@@ -6,7 +6,7 @@ project (Go_Swig_Cpp_demo)
 
 include (cmake/go.cmake)
 
-#--------------------------------------------------------------------------------------------------
+#==================================================================================================
 # SWIG integration
 
 find_package (SWIG)
@@ -18,7 +18,7 @@ endif ()
 
 message ("Found SWIG ${SWIG_VERSION}")
 
-#--------------------------------------------------------------------------------------------------
+#==================================================================================================
 # Address sanitization
 # see e.g. https://felsoci.sk/blog/using-address-sanitizer-asan-in-a-cmake-project.html
 
@@ -27,44 +27,85 @@ if (CMAKE_BUILD_TYPE MATCHES "Debug")
     target_link_options (asan-demo BEFORE PUBLIC -fsanitize=undefined PUBLIC -fsanitize=address)
 endif ()
 
-#--------------------------------------------------------------------------------------------------
+#==================================================================================================
 
 include (UseSWIG)
-set (SWIG_FILE "cpp/interface.i")
-set_source_files_properties (${SWIG_FILE} PROPERTIES
+
+#--------------------------------------------------------------------------------------------------
+
+set (PAL_SWIG_FILE "pal/interface.i")
+set_source_files_properties (${PAL_SWIG_FILE} PROPERTIES
         CPLUSPLUS ON
         SWIG_USE_TARGET_INCLUDE_DIRECTORIES ON)
 
-set (SWIG_MODULE_NAME "essay")
+set (PAL_SWIG_MODULE_NAME "paler")
 set (CMAKE_SWIG_FLAGS -c++ -go -cgo -intgosize 64)
 message ("CMAKE_SWIG_FLAGS: ${CMAKE_SWIG_FLAGS}")
 
-swig_add_library (${SWIG_MODULE_NAME}
+swig_add_library (${PAL_SWIG_MODULE_NAME}
         TYPE SHARED
         LANGUAGE go
-        OUTPUT_DIR "${CMAKE_SOURCE_DIR}/cpp" # in-place files make Go development easier
-        SOURCES ${SWIG_FILE}
+        OUTPUT_DIR "${CMAKE_SOURCE_DIR}/pal" # in-place files make Go development easier
+        SOURCES ${PAL_SWIG_FILE}
 )
 
-set_target_properties (${SWIG_MODULE_NAME} PROPERTIES SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE)
+set_target_properties (${PAL_SWIG_MODULE_NAME} PROPERTIES SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE)
+
+#--------------------------------------------------------------------------------------------------
+
+set (REV_SWIG_FILE "rev/interface.i")
+set_source_files_properties (${REV_SWIG_FILE} PROPERTIES
+        CPLUSPLUS ON
+        SWIG_USE_TARGET_INCLUDE_DIRECTORIES ON)
+
+set (REV_SWIG_MODULE_NAME "rever")
+set (CMAKE_SWIG_FLAGS -c++ -go -cgo -intgosize 64)
+message ("CMAKE_SWIG_FLAGS: ${CMAKE_SWIG_FLAGS}")
+
+swig_add_library (${REV_SWIG_MODULE_NAME}
+        TYPE SHARED
+        LANGUAGE go
+        OUTPUT_DIR "${CMAKE_SOURCE_DIR}/rev" # in-place files make Go development easier
+        SOURCES ${REV_SWIG_FILE}
+)
+
+set_target_properties (${REV_SWIG_MODULE_NAME} PROPERTIES SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE)
+
+#==================================================================================================
 
 set (UseSWIG_TARGET_NAME_PREFERENCE STANDARD)
 
-#--------------------------------------------------------------------------------------------------
+#==================================================================================================
 # Application Code
 
-include_directories ("cpp")
+include_directories (".")
 
-set (cpp_api_sources
-        cpp/Reverse.cpp
-        cpp/Palindrome.cpp
+set (pal_api_sources
+        pal/Palindrome.cpp
+        pal/Palindrome.h
+)
+
+set (rev_api_sources
+        rev/Reverse.cpp
+        rev/Reverse.h
 )
 
 add_library (cpp_api
-        ${cpp_api_sources}
+        ${pal_api_sources}
+        ${rev_api_sources}
 )
 
 #--------------------------------------------------------------------------------------------------
-# the 'cmd' directory holds runnable commands
+# the 'cmd' directory holds runnable Go & C++ commands
+
+add_executable (cpp_main
+        cmd/main.cpp
+        ${pal_api_sources}
+        ${rev_api_sources}
+)
 
 add_subdirectory (cmd)
+
+#target_link_libraries (cpp_main
+#        ${cpp_api}
+#)
