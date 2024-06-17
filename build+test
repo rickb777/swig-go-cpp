@@ -1,9 +1,22 @@
 #!/bin/bash -e
 
-echo "cmake -S . -B .build-debug -G Ninja"
-cmake -S . -B .build-debug -G Ninja
+TOOL=Ninja
+CMD="ninja -j4 -C"
+if [ ! -x /usr/bin/ninja ]; then
+  TOOL="Unix Makefiles"
+  CMD="make -j4 -C"
+fi
+
+echo "cmake -S . -B .build-debug -G $TOOL"
+cmake -S . -B .build-debug -G "$TOOL"
 
 echo
 
-echo "ninja -j4 -C .build-debug"
-ninja -j4 -C .build-debug
+echo "$CMD .build-debug"
+$CMD .build-debug
+
+echo
+
+go test ./...
+#echo .build-debug/all_tests
+#.build-debug/all_tests

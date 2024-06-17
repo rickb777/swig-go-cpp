@@ -1,0 +1,4 @@
+#!/bin/bash -e
+cd "$(dirname $0)"
+rm -f cpp/cpp.go */*GO_wrap.cxx
+rm -rf .build-debug

@@ -1,10 +1,11 @@
 cmake_minimum_required (VERSION 3.27)
+#set (CMAKE_CXX_STANDARD 17)
+#set (CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Set the project name
 project (Go_Swig_Cpp_demo)
 
-include (cmake/go.cmake)
 include (cmake/gtest.cmake)
+include (cmake/go.cmake)
 
 #--------------------------------------------------------------------------------------------------
 # SWIG integration
@@ -29,6 +30,8 @@ endif ()
 
 #--------------------------------------------------------------------------------------------------
 
+message("GTEST_INCLUDE_DIRS: ${GTEST_INCLUDE_DIRS}") # Include GoogleTest directories
+include_directories(${googletest_SOURCE_DIR}/googletest/include) # Include GoogleTest directories
 include (UseSWIG)
 set (SWIG_FILE "cpp/interface.i")
 set_source_files_properties (${SWIG_FILE} PROPERTIES
@@ -46,12 +49,6 @@ swig_add_library (${SWIG_MODULE_NAME}
         SOURCES ${SWIG_FILE}
 )
 
-#target_include_directories(${SWIG_MODULE_NAME} PRIVATE ${HIDAPI_INCLUDE_DIR})
-
-#swig_link_libraries(${SWIG_MODULE_NAME} PUBLIC stduuid)
-#swig_link_libraries(${SWIG_MODULE_NAME} PUBLIC fmt::fmt-header-only)
-#swig_link_libraries(${SWIG_MODULE_NAME} PUBLIC nlohmann_json nlohmann_json::nlohmann_json)
-
 set_target_properties (${SWIG_MODULE_NAME} PROPERTIES SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE)
 
 set (UseSWIG_TARGET_NAME_PREFERENCE STANDARD)
@@ -59,31 +56,50 @@ set (UseSWIG_TARGET_NAME_PREFERENCE STANDARD)
 #--------------------------------------------------------------------------------------------------
 # Application Code
 
-message ("----- include -----")
-message (${INCLUDE_DIRECTORIES})
-add_library (cpp_api
+message ("----- cpp api -----")
+message ("googletest_SOURCE_DIR: ${googletest_SOURCE_DIR}")
+
+include_directories ("cpp")
+
+set (cpp_api_sources
         cpp/Reverse.cpp
         cpp/Palindrome.cpp
 )
 
-#--------------------------------------------------------------------------------------------------
-
-add_subdirectory (cmd)
+add_library (cpp_api
+        ${cpp_api_sources}
+)
 
 #--------------------------------------------------------------------------------------------------
 # Unit tests
 
-# enable CTest testing
+# enable GTest testing
 enable_testing ()
+
+set (test_sources
+        cpp/unit_tests.cpp.txt
+)
+
+#file (GLOB_RECURSE test_sources CONFIGURE_DEPENDS
+#        cpp/unit_tests.cpp
+#)
+
+#add_executable (all_tests
+#        ${test_sources}
+#        ${cpp_api_sources}
+#)
 
 # Add a testing executable
 #add_executable (cpp_unit_tests cpp/unit_tests.cpp)
 
-#target_link_libraries (cpp_unit_tests
-#        cpp_api
-#        gtest
-#        gtest_main
+#target_link_libraries (all_tests
+#        GTest::gtest_main
 #)
 
-#add_test (test_all cpp_unit_tests)
+include (GoogleTest)
+#gtest_discover_tests (all_tests)
 
+#--------------------------------------------------------------------------------------------------
+# the 'cmd' directory holds runnable commands
+
+add_subdirectory (cmd)
