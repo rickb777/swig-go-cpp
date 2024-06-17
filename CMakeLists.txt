@@ -4,7 +4,6 @@ cmake_minimum_required (VERSION 3.27)
 
 project (Go_Swig_Cpp_demo)
 
-include (cmake/gtest.cmake)
 include (cmake/go.cmake)
 
 #--------------------------------------------------------------------------------------------------
@@ -30,8 +29,6 @@ endif ()
 
 #--------------------------------------------------------------------------------------------------
 
-message("GTEST_INCLUDE_DIRS: ${GTEST_INCLUDE_DIRS}") # Include GoogleTest directories
-include_directories(${googletest_SOURCE_DIR}/googletest/include) # Include GoogleTest directories
 include (UseSWIG)
 set (SWIG_FILE "cpp/interface.i")
 set_source_files_properties (${SWIG_FILE} PROPERTIES
@@ -56,9 +53,6 @@ set (UseSWIG_TARGET_NAME_PREFERENCE STANDARD)
 #--------------------------------------------------------------------------------------------------
 # Application Code
 
-message ("----- cpp api -----")
-message ("googletest_SOURCE_DIR: ${googletest_SOURCE_DIR}")
-
 include_directories ("cpp")
 
 set (cpp_api_sources
@@ -69,35 +63,6 @@ set (cpp_api_sources
 add_library (cpp_api
         ${cpp_api_sources}
 )
-
-#--------------------------------------------------------------------------------------------------
-# Unit tests
-
-# enable GTest testing
-enable_testing ()
-
-set (test_sources
-        cpp/unit_tests.cpp.txt
-)
-
-#file (GLOB_RECURSE test_sources CONFIGURE_DEPENDS
-#        cpp/unit_tests.cpp
-#)
-
-#add_executable (all_tests
-#        ${test_sources}
-#        ${cpp_api_sources}
-#)
-
-# Add a testing executable
-#add_executable (cpp_unit_tests cpp/unit_tests.cpp)
-
-#target_link_libraries (all_tests
-#        GTest::gtest_main
-#)
-
-include (GoogleTest)
-#gtest_discover_tests (all_tests)
 
 #--------------------------------------------------------------------------------------------------
 # the 'cmd' directory holds runnable commands
