@@ -1,4 +1,6 @@
 #!/bin/bash -e
+cd "$(dirname "$0")"
+export GOBIN="$PWD/bin"
 
 TOOL=Ninja
 CMD="ninja -j4 -C"
@@ -17,7 +19,12 @@ $CMD .build-debug
 
 echo "--"
 go test ./...
-echo "--"
+go install ./cmd/...
+
+echo "-- cpp_main"
 .build-debug/cpp_main
-echo "--"
+echo "-- swig-go-cpp C++"
 .build-debug/cmd/swig-go-cpp
+echo "-- swig-go-cpp Go"
+bin/swig-go-cpp
+

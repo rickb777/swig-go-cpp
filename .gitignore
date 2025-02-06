@@ -1,7 +1,8 @@
 .build-debug/
 
 # vendor holds Go dependencies and would normally be added to Git, if it is present.
-vendor/
+/vendor/
 /pal/pal.go
 /rev/rev.go
 */interfaceGO_wrap.cxx
+/bin/

@@ -7,7 +7,7 @@
 find_program (GO_EXECUTABLE go)
 
 if (!GO_EXECUTABLE)
-    message (FATAL_ERROR "Go not found. Please install Go (>=v1.22.2) or fix its installation.")
+    message (FATAL_ERROR "Go not found. Please install Go (>=v1.22) or fix its installation.")
 endif ()
 
 message ("Bindings for Go will be generated using ${GO_EXECUTABLE}")

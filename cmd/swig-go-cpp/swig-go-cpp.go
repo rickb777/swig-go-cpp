@@ -1,3 +1,5 @@
+// This calls the palindrome and reverse APIs from Go via Swig interfaces.
+
 package main
 
 import (
@@ -11,8 +13,9 @@ func main() {
 	fmt.Println(msg)
 
 	pally := pal.NewPalindrome()
-	fmt.Println("mum", pally.IsPalindrome("mum"))
-	fmt.Println("mother", pally.IsPalindrome("mother"))
+	defer pal.DeletePalindrome(pally)
+	fmt.Println("mum ", pally.IsPalindrome("mum"))
+	fmt.Println("mother ", pally.IsPalindrome("mother"))
 
 	rever := rev.NewReverse()
 	defer rev.DeleteReverse(rever)

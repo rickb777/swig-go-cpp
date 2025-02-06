@@ -1,3 +1,5 @@
+// This simply calls the palindrome and reverse APIs from C++ directly.
+
 #include <iostream>
 #include "pal/Palindrome.h"
 #include "rev/Reverse.h"
@@ -5,8 +7,8 @@
 int main(int argc, char *argv[])
 {
 	Palindrome pally;
-	std::cout << "mum" << pally.isPalindrome("mum") << std::endl;
-	std::cout << "mother" << pally.isPalindrome("mother") << std::endl;
+	std::cout << "mum " << pally.isPalindrome("mum") << std::endl;
+	std::cout << "mother " << pally.isPalindrome("mother") << std::endl;
 
     std::string msg = "Hello world!";
     Reverse rever;

@@ -1,4 +1,4 @@
 #!/bin/bash -e
 cd "$(dirname $0)"
-rm -f pal/pal.go rev/rev.go */*GO_wrap.cxx
-rm -rf .build-debug
+rm -f pal/pal.go rev/rev.go $(find . -name '*GO_wrap.cxx')
+rm -rf .build-debug bin

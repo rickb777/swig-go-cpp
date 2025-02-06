@@ -39,8 +39,6 @@ set_source_files_properties (${PAL_SWIG_FILE} PROPERTIES
         SWIG_USE_TARGET_INCLUDE_DIRECTORIES ON)
 
 set (PAL_SWIG_MODULE_NAME "paler")
-set (CMAKE_SWIG_FLAGS -c++ -go -cgo -intgosize 64)
-message ("CMAKE_SWIG_FLAGS: ${CMAKE_SWIG_FLAGS}")
 
 swig_add_library (${PAL_SWIG_MODULE_NAME}
         TYPE SHARED
@@ -59,8 +57,6 @@ set_source_files_properties (${REV_SWIG_FILE} PROPERTIES
         SWIG_USE_TARGET_INCLUDE_DIRECTORIES ON)
 
 set (REV_SWIG_MODULE_NAME "rever")
-set (CMAKE_SWIG_FLAGS -c++ -go -cgo -intgosize 64)
-message ("CMAKE_SWIG_FLAGS: ${CMAKE_SWIG_FLAGS}")
 
 swig_add_library (${REV_SWIG_MODULE_NAME}
         TYPE SHARED
