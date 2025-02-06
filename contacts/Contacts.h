@@ -1,6 +1,7 @@
 #ifndef Contacts_H_
 #define Contacts_H_
 
+#include <chrono>
 #include <string>
 #include <vector>
 
@@ -23,6 +24,9 @@ namespace ContactBook
         int day; // 1 .. 31
 
         std::string string() const;
+        std::chrono::time_point<std::chrono::system_clock> to_time() const;
+
+        //static Date today();
     };
 
 //    class Address
@@ -44,6 +48,7 @@ namespace ContactBook
 //        std::vector<Address> addresses;
 
         std::string string() const;
+        int age() const;
     };
 }
 

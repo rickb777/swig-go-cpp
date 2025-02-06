@@ -43,7 +43,12 @@ func TestPerson(t *testing.T) {
 	p.SetGender(FEMALE)
 	p.SetBirthday(d)
 	s := p.String()
-	if s != "Jane Brown (female, 1990-10-10)" {
-		t.Errorf("got %q, want %q", s, "Jane Brown (female, 1990-10-10)")
+	if s != "Jane Brown (female) born 1990-10-10" {
+		t.Errorf("got %q, want %q", s, "Jane Brown (female) born 1990-10-10")
+	}
+
+	a := p.Age()
+	if a <= 10 || a > 110 {
+		t.Errorf("got %d, want >10", a)
 	}
 }

@@ -2,6 +2,7 @@
 %include "std_string.i"
 
 %{
+#include <chrono>
 #include "Contacts.h"
 %}
 
