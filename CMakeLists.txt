@@ -33,6 +33,24 @@ include (UseSWIG)
 
 #--------------------------------------------------------------------------------------------------
 
+set (CONTACTS_SWIG_FILE "contacts/interface.i")
+set_source_files_properties (${CONTACTS_SWIG_FILE} PROPERTIES
+        CPLUSPLUS ON
+        SWIG_USE_TARGET_INCLUDE_DIRECTORIES ON)
+
+set (CONTACTS_SWIG_MODULE_NAME "contacts")
+
+swig_add_library (${CONTACTS_SWIG_MODULE_NAME}
+        TYPE SHARED
+        LANGUAGE go
+        OUTPUT_DIR "${CMAKE_SOURCE_DIR}/contacts" # in-place files make Go development easier
+        SOURCES ${CONTACTS_SWIG_FILE}
+)
+
+set_target_properties (${CONTACTS_SWIG_MODULE_NAME} PROPERTIES SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE)
+
+#--------------------------------------------------------------------------------------------------
+
 set (PAL_SWIG_FILE "pal/interface.i")
 set_source_files_properties (${PAL_SWIG_FILE} PROPERTIES
         CPLUSPLUS ON
@@ -76,6 +94,11 @@ set (UseSWIG_TARGET_NAME_PREFERENCE STANDARD)
 
 include_directories (".")
 
+set (contacts_api_sources
+        contacts/Contacts.cpp
+        contacts/Contacts.h
+)
+
 set (pal_api_sources
         pal/Palindrome.cpp
         pal/Palindrome.h
@@ -96,6 +119,7 @@ add_library (cpp_api
 
 add_executable (cpp_main
         cmd/main.cpp
+        ${contacts_api_sources}
         ${pal_api_sources}
         ${rev_api_sources}
 )
