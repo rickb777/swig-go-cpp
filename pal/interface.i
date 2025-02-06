@@ -2,7 +2,6 @@
 %include "std_string.i"
 
 %{
-#include <string>
 #include "Palindrome.h"
 %}
 

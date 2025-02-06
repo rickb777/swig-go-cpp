@@ -21,10 +21,15 @@ echo "--"
 go test ./...
 go install ./cmd/...
 
+echo
 echo "-- cpp_main"
 .build-debug/cpp_main
+
+echo
 echo "-- swig-go-cpp C++"
 .build-debug/cmd/swig-go-cpp
+
+echo
 echo "-- swig-go-cpp Go"
 bin/swig-go-cpp
 

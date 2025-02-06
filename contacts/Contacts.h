@@ -6,6 +6,15 @@
 
 namespace ContactBook
 {
+    enum Gender
+    {
+        OTHER,
+        MALE,
+        FEMALE
+    };
+
+    std::string to_string(Gender g);
+
     class Date
     {
     public:
@@ -26,15 +35,16 @@ namespace ContactBook
 //        std::string oneLine() const;
 //    };
 //
-//    class Person
-//    {
-//    public:
-//        std::string name;
+    class Person
+    {
+    public:
+        std::string name;
+        Gender gender;
+        Date birthday;
 //        std::vector<Address> addresses;
-//        Date birthday;
-//
-//        std::string string() const;
-//    };
+
+        std::string string() const;
+    };
 }
 
 #endif

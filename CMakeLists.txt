@@ -109,7 +109,11 @@ set (rev_api_sources
         rev/Reverse.h
 )
 
+#--------------------------------------------------------------------------------------------------
+# make libcpp_api.a
+
 add_library (cpp_api
+        ${contacts_api_sources}
         ${pal_api_sources}
         ${rev_api_sources}
 )

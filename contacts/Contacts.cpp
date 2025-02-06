@@ -4,6 +4,19 @@
 
 namespace ContactBook
 {
+    std::string to_string(Gender g)
+    {
+        switch (g)
+        {
+        case MALE: return "male";
+        case FEMALE: return "female";
+        case OTHER: return "other";
+        }
+        std::stringstream buf;
+        buf << "Gender(" << g << ")";
+        return buf.str();
+    }
+
     std::string Date::string() const
     {
         std::stringstream buf;
@@ -24,10 +37,10 @@ namespace ContactBook
 //        return buf.str();
 //    }
 
-//    std::string Person::string() const
-//    {
-//        std::stringstream buf;
-//        buf << name << " (" << birthday.string() << ")";
-//        return buf.str();
-//    }
+    std::string Person::string() const
+    {
+        std::stringstream buf;
+        buf << name << " (" << to_string(gender) << ", " << birthday.string() << ")";
+        return buf.str();
+    }
 }
